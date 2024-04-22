@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: accommodation
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+#    volumes:
+#      - postgres-data:/var/lib/postgresql/data
+  spring-boot-app:
+    build: .
+    image: vdeskovski/lab-b-emt
+    ports:
+      - "8080:8080"
+    environment:
+      postgres-url: jdbc:postgresql://postgres:5432/accommodation
+      postgres-username: postgres
+      postgres-password: 1234
+    depends_on:
+      - postgres
+
+#volumes:
+#  postgres-data:
+
+
+
+    #  postgres:
+    #    image: postgres
+    #    environment:
+    #      POSTGRES_PASSWORD: 1234
+    #      POSTGRES_DB: accommodation
+    #    ports:
+    #      - "1234:1234"
+    #    volumes:
+    #      - ./pgdata:/var/lib/postgresql/data
+
